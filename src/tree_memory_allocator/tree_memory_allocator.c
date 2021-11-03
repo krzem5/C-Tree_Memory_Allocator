@@ -610,30 +610,6 @@ void deallocate(void* p){
 	rb_node_t* n=(rb_node_t*)(((uint64_t)p)-sizeof(used_rb_node_t));
 	ASSERT(n->v&FLAG_USED);
 	n->v&=~(FLAG_CHAIN|FLAG_USED|FLAG_COLOR_RED);
-	if (!(n->v&FLAG_NO_NEXT)){
-		rb_node_t* nn=(rb_node_t*)(((uint64_t)n)+RB_NODE_GET_VALUE(n));
-		if (!(nn->v&FLAG_USED)){
-			// _delete_node(nn);
-			// if (!(nn->v&FLAG_NO_NEXT)){
-			// 	rb_node_t* nnn=(rb_node_t*)(((uint64_t)nn)+RB_NODE_GET_VALUE(nn));
-			// 	nnn->v=((RB_NODE_GET_VALUE(n)+RB_NODE_GET_VALUE(nn))<<34)|(nnn->v&0x3ffffffff);
-			// }
-			// n->v=(n->v&0xfffffffc00000000ull)|(RB_NODE_GET_VALUE(n)+RB_NODE_GET_VALUE(nn))|(nn->v&FLAG_NO_NEXT);
-		}
-	}
-	if (RB_NODE_GET_PREV_SIZE(n)){
-		rb_node_t* p=(rb_node_t*)(((uint64_t)n)-RB_NODE_GET_PREV_SIZE(n));
-		if (!(p->v&FLAG_USED)){
-			// _delete_node(p);
-			// if (!(n->v&FLAG_NO_NEXT)){
-			// 	rb_node_t* nn=(rb_node_t*)(((uint64_t)n)+RB_NODE_GET_VALUE(n));
-			// 	nn->v=((RB_NODE_GET_VALUE(p)+RB_NODE_GET_VALUE(n))<<34)|(nn->v&0x3ffffffff);
-			// }
-			// p->v=(p->v&0xfffffffc00000000ull)|(RB_NODE_GET_VALUE(p)+RB_NODE_GET_VALUE(n))|(n->v&FLAG_NO_NEXT);
-			// printf("C %p %p\n",p,p->v);
-			// n=p;
-		}
-	}
 	_add_node(n);
 }
 

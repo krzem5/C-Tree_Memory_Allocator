@@ -1,6 +1,5 @@
 #include <tree_memory_allocator.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -19,9 +18,8 @@ typedef struct __BLOCK{
 
 
 int main(int argc,const char** argv){
-	printf("Seed: %u\n",(unsigned int)time(NULL));
 	init_allocator();
-	srand(1635868628/*(unsigned int)time(NULL)*/);
+	srand((unsigned int)time(NULL));
 	block_t bl[ALLOCATION_COUNT];
 	for (uint32_t i=0;i<ALLOCATION_COUNT;i++){
 		bl[i].sz=((uint64_t)rand())*(MAX_ALLOCATION_SIZE-1)/RAND_MAX+1;
@@ -49,6 +47,5 @@ int main(int argc,const char** argv){
 	}
 	deallocate(bl[ALLOCATION_COUNT-1].p);
 	deinit_allocator();
-	printf("End!\n");
 	return 0;
 }
