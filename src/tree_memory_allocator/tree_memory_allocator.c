@@ -81,15 +81,12 @@ static void _add_node(rb_node_t* o){
 	rb_node_t* x=_allocator_root;
 	rb_node_t* y=NULL;
 	while (x!=&_allocator_nil_node){
-		// printf("%p %p\n",x,y);
 		y=x;
 		if (RB_NODE_GET_VALUE(x)>RB_NODE_GET_VALUE(o)){
 			x=x->l;
-			// printf("L\n");
 		}
 		else if (RB_NODE_GET_VALUE(x)<RB_NODE_GET_VALUE(o)){
 			x=x->r;
-			// printf("R\n");
 		}
 		else{
 			if (x->v&FLAG_CHAIN){
@@ -102,7 +99,6 @@ static void _add_node(rb_node_t* o){
 			}
 			o->v|=FLAG_CHAIN;
 			o->p=x;
-			o->l=(void*)(0x1111111111111111ull);
 			o->r=NULL;
 			x->s=o;
 			return;
@@ -559,7 +555,6 @@ void* allocate(size_t sz){
 				n->v&=~FLAG_CHAIN;
 			}
 			n=p;
-			n->l=(void*)(0x1111111111111111ull*3);
 			n->r=NULL;
 		}
 	}
@@ -582,7 +577,6 @@ void* allocate(size_t sz){
 		ASSERT(!(n->v&15)&&n->v<=MAX_ALLOCATION_SIZE);
 		n->v|=FLAG_NO_NEXT;
 		n->r=NULL;
-		n->l=(void*)(0x1111111111111111ull*2);
 	}
 	ASSERT(RB_NODE_GET_VALUE(n)>=sz);
 	if (RB_NODE_GET_VALUE(n)-sz>=sizeof(rb_node_t)+ALLOCATOR_ALIGNMENT){
